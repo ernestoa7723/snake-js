@@ -16,11 +16,21 @@ const draw = () => {
 
 const step = t1 => t2 => {
     if (t2 - t1 > 150) {
+        state = next(state)
         draw()
         window.requestAnimationFrame(step(t2))
     } else {
         window.requestAnimationFrame(step(t1))
     }
 }
+
+window.addEventListener('keydown', e => {
+    switch (e.key) {
+        case 'a': case 'ArrowLeft': state = enqueue(state, west); break
+        case 'w': case 'ArrowUp': state = enqueue(state, north); break
+        case 'd': case 'ArrowRight': state = enqueue(state, east); break
+        case 's': case 'ArrowDown': state = enqueue(state, south); break
+    }
+})
 
 window.requestAnimationFrame(step(0))
