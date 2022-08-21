@@ -19,14 +19,29 @@ const initialState = () => ({
     },
 })
 
-const nextHead = state => ({
+const nextHead = state => state.snake.length === 0
+    ? rndPos(state)
+    : {
         x: mod(state.cols)(state.snake[0].x + state.moves[0].x),
         y: mod(state.rows)(state.snake[0].y + state.moves[0].y)
-    })
+    }
 
-const nextSnake = state => (willEat(state)
-    ? [nextHead(state)].concat(state.snake)
-    : [nextHead(state)].concat(dropLast(state.snake)))
+const willCrash = state => {
+    if (state.snake.find(pointEq(nextHead(state)))) {
+        try {
+            alert('You lost!\nYour score is ' + (state.snake.length - 1).toString())
+        } catch (e) {
+
+        }
+    }
+    return state.snake.find(pointEq(nextHead(state)))
+}
+
+const nextSnake = state => willCrash(state)
+    ? []
+    : (willEat(state)
+        ? [nextHead(state)].concat(state.snake)
+        : [nextHead(state)].concat(dropLast(state.snake)))
 
 const nextMoves = state => state.moves.length > 1
     ? dropFirst(state.moves)
