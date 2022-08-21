@@ -6,13 +6,13 @@ const south = {x: 0, y: 1}
 const initialState = () => ({
     rows: 20,
     cols: 20,
-    snake: [
-        {
-            x: 10,
-            y: 10
-        }
+    snake: [{
+        x: 10,
+        y: 10
+    }],
+    moves: [
+        east
     ],
-    moves: [east],
     apple: {
         x: rnd(0)(20),
         y: rnd(0)(20)
@@ -24,18 +24,33 @@ const nextHead = state => ({
         y: mod(state.rows)(state.snake[0].y + state.moves[0].y)
     })
 
-const nextSnake = state => [nextHead(state)].concat(dropLast(state.snake))
+const nextSnake = state => (willEat(state)
+    ? [nextHead(state)].concat(state.snake)
+    : [nextHead(state)].concat(dropLast(state.snake)))
 
 const nextMoves = state => state.moves.length > 1
     ? dropFirst(state.moves)
     : state.moves
+
+const pointEq = p1 => p2 => p1.x === p2.x && p1.y === p2.y
+
+const willEat = state => pointEq(nextHead(state))(state.apple)
+
+const rndPos = table => ({
+    x: rnd(0)(table.cols - 1),
+    y: rnd(0)(table.rows - 1)
+})
+
+const nextApple = state => willEat(state)
+    ? rndPos(state)
+    : state.apple
 
 const next = spec({
     rows: prop('rows'),
     cols: prop('cols'),
     snake: nextSnake,
     moves: nextMoves,
-    apple: state => state.apple
+    apple: nextApple
 })
 
 const validMove = move => state => state.moves[0].x + move.x !== 0 || state.moves[0].y + move.y !== 0
