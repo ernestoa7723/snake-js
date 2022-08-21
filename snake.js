@@ -1,3 +1,6 @@
+const base = require('./base')
+Object.getOwnPropertyNames(base).map(p => global[p] = base[p])
+
 const west = {x: -1, y: 0}
 const north = {x: 0, y: -1}
 const east = {x: 1, y: 0}

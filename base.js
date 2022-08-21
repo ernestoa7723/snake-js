@@ -10,6 +10,11 @@ const dropLast  = xs => xs.slice(0, xs.length - 1)
 const dropFirst = xs => xs.slice(1)
 const merge     = o1 => o2 => Object.assign({}, o1, o2)
 
+const pipe = (...fns) => x => [...fns].reduce((acc, f) => f(acc), x)
+const k = x => y => x
+const range = n => m => Array.apply(null, Array(m - n)).map((_, i) => n + i)
+const rep = c => n => map(k(c))(range(0)(n))
+
 module.exports = {
     rnd,
 
@@ -22,4 +27,9 @@ module.exports = {
     dropLast,
     dropFirst,
     merge,
+
+    pipe,
+    k,
+    range,
+    rep,
 }
