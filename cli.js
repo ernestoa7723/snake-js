@@ -9,10 +9,13 @@ const Matrix = {
     addSnake: state => pipe(...map(Matrix.set('X'))(state.snake)),
     addApple: state => Matrix.set('O')(state.apple),
 
+    addCrash: state => state.snake.length === 0 ? map(map(k('#'))) : id,
+
     fromState: state => pipe(
         Matrix.make,
         Matrix.addSnake(state),
         Matrix.addApple(state),
+        Matrix.addCrash(state),
     )(state)
 }
 
@@ -36,5 +39,5 @@ process.stdin.on('keypress', (str, key) => {
 
 setInterval(() => {
     show()
-    step();
+    step()
 }, 100)
