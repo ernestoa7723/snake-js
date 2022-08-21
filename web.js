@@ -12,6 +12,9 @@ const draw = () => {
 
     context.fillStyle = '#00ff37'
     state.snake.map(p => context.fillRect(x(p.x), y(p.y), x(1), y(1)))
+
+    context.fillStyle = '#ff3700'
+    context.fillRect(x(state.apple.x), y(state.apple.y), x(1), y(1))
 }
 
 const step = t1 => t2 => {

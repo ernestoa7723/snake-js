@@ -13,6 +13,10 @@ const initialState = () => ({
         }
     ],
     moves: [east],
+    apple: {
+        x: rnd(0)(20),
+        y: rnd(0)(20)
+    },
 })
 
 const nextHead = state => ({
@@ -31,6 +35,7 @@ const next = spec({
     cols: prop('cols'),
     snake: nextSnake,
     moves: nextMoves,
+    apple: state => state.apple
 })
 
 const validMove = move => state => state.moves[0].x + move.x !== 0 || state.moves[0].y + move.y !== 0
