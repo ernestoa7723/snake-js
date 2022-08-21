@@ -15,6 +15,9 @@ const k = x => y => x
 const range = n => m => Array.apply(null, Array(m - n)).map((_, i) => n + i)
 const rep = c => n => map(k(c))(range(0)(n))
 
+const mapi = f => xs => xs.map((x, i) => f(x)(i))
+const adjust = n => f => xs => mapi(x => i => i === n ? f(x) : x)(xs)
+
 module.exports = {
     rnd,
 
@@ -32,4 +35,7 @@ module.exports = {
     k,
     range,
     rep,
+
+    mapi,
+    adjust,
 }
